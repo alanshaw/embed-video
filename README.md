@@ -1,4 +1,4 @@
-# embed-video
+# embed-video [![Dependency Status](https://david-dm.org/alanshaw/embed-video.svg)](https://david-dm.org/alanshaw/embed-video)
 
 Get embed code for embedding youtube/vimeo/whatever video in websites from URL or ID.
 
