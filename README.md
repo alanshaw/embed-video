@@ -1,4 +1,4 @@
-# embed-video [![Dependency Status](https://david-dm.org/alanshaw/embed-video.svg)](https://david-dm.org/alanshaw/embed-video)
+# embed-video [![Build Status](https://travis-ci.org/alanshaw/embed-video.svg?branch=master)](https://travis-ci.org/alanshaw/embed-video) [![Dependency Status](https://david-dm.org/alanshaw/embed-video.svg)](https://david-dm.org/alanshaw/embed-video)
 
 Get embed code for embedding youtube/vimeo/whatever video in websites from URL or ID.
 
@@ -30,5 +30,8 @@ Output:
 <iframe src="//player.vimeo.com/video/6964150" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
 <iframe src="//www.youtube.com/embed/9XeNNqeHVDw" frameborder="0" allowfullscreen></iframe>
 ```
+
+[![browser support](https://ci.testling.com/alanshaw/embed-video.png)
+](https://ci.testling.com/alanshaw/embed-video)
 
 
