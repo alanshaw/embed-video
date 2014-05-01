@@ -1,0 +1,28 @@
+{
+  "name": "embed-video",
+  "version": "0.0.0",
+  "description": "Get embed code for embedding youtube/vimeo/whatever video in websites from URL or ID",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/alanshaw/embed-video.git"
+  },
+  "keywords": [
+    "video",
+    "movie",
+    "embed",
+    "code",
+    "share",
+    "vimeo",
+    "youtube"
+  ],
+  "author": "Alan Shaw",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/alanshaw/embed-video/issues"
+  },
+  "homepage": "https://github.com/alanshaw/embed-video"
+}
