@@ -1,4 +1,4 @@
-# embed-video [![Build Status](https://travis-ci.org/alanshaw/embed-video.svg?branch=master)](https://travis-ci.org/alanshaw/embed-video) [![devDependency Status](https://david-dm.org/alanshaw/embed-video/dev-status.svg)](https://david-dm.org/alanshaw/embed-video#info=devDependencies)
+# embed-video [![Build Status](http://img.shields.io/travis/alanshaw/embed-video.svg?style=flat)](https://travis-ci.org/alanshaw/embed-video) [![devDependency Status](https://david-dm.org/alanshaw/embed-video/dev-status.svg?style=flat)](https://david-dm.org/alanshaw/embed-video#info=devDependencies)
 
 Get embed code for embedding youtube/vimeo/whatever video in websites from URL or ID.
 
