@@ -98,27 +98,35 @@
         options.height = opt ? (opt.height || '100%') : '100%';
 
         this.opt = options;
-
+        //begin adding parsers to Embed
         for (var parser in parsers) {
             if (parsers.hasOwnProperty(parser)) {
                 var self = this;
+                //create a wrapper
                 self[parser] = wrap(parsers[parser], function(fn) {
                     return fn.parse(this.url, function(id, iframe) {
                         var script = iframe;
                         //http://stackoverflow.com/a/15502875/1251031
+                        //match every '{{ }}' and return the inner content
                         iframe.match(/{{\s*[\w\.]+\s*}}/g)
                             .map(function(x) {
+                                //if we are at {{eid}}
                                 if (x.match(/eid/)) {
+                                    //id is and object?
                                     if (typeof id === 'object' && id !== null) {
-
+                                        //replace {{eid}} with the id
                                         script = script.replace(new RegExp(x.toString(), "g"), id.source);
+                                        //id is string?
                                     } else if (typeof id === 'string' && id !== null) {
                                         script = script.replace(new RegExp(x.toString(), "g"), id);
+                                        //id is null?
                                     } else if (id === null) {
+                                        //then replace with the url's source
                                         script = script.replace(new RegExp(x.toString(), "g"), self.url.source);
                                     }
-
+                                    //{{width}} {{height}} etc...
                                 } else {
+                                    //replace with values if they exist
                                     script = script.replace(new RegExp(x.toString(), "g"), self.opt[x.substring(2, x.length - 2)] || "");
                                 }
                             });
@@ -131,6 +139,8 @@
     }
 
     Embed.prototype.id = function() {
+        //same concept as the above in Embed constructor
+        //except return the id.
         for (var parser in parsers) {
             if (parsers.hasOwnProperty(parser)) {
                 return parsers[parser].parse(this.url, function(id, iframe) {
