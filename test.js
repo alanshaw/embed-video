@@ -1,5 +1,5 @@
 var test = require("tape"),
-    embed = require("./index");
+    embed = require("./embed.video.js");
 
 test("convert vimeo.com url", function(t) {
     t.plan(1)
@@ -44,4 +44,16 @@ test("convert youtube id", function(t) {
     t.plan(1)
     var code = embed("9XeNNqeHVDw").youtube()
     t.equal(code, '<iframe src="https://www.youtube.com/embed/9XeNNqeHVDw" frameborder="0" allowfullscreen class="" id="" width="100%" height="100%"></iframe>')
+})
+
+test("convert vimeo url to id", function(t) {
+    t.plan(1)
+    var id = embed("http://vimeo.com/19339941").id()
+    t.equal(id, '19339941')
+})
+
+test("convert youtube url to id", function(t) {
+    t.plan(1)
+    var id = embed("https://www.youtube.com/watch?v=twE64AuqE9A").id()
+    t.equal(id, 'twE64AuqE9A')
 })

@@ -1,44 +1,44 @@
 {
-  "name": "embed-video",
-  "version": "1.0.2",
-  "description": "Get embed code for embedding youtube/vimeo/whatever video in websites from URL or ID",
-  "main": "index.js",
-  "scripts": {
-    "test": "tape test.js"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git://github.com/alanshaw/embed-video.git"
-  },
-  "keywords": [
-    "video",
-    "movie",
-    "embed",
-    "code",
-    "share",
-    "vimeo",
-    "youtube"
-  ],
-  "author": "Alan Shaw",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/alanshaw/embed-video/issues"
-  },
-  "homepage": "https://github.com/alanshaw/embed-video",
-  "devDependencies": {
-    "tape": "^3.0.1"
-  },
-  "testling": {
-    "files": "test.js",
-    "browsers": [
-      "ie/8..latest",
-      "chrome/latest",
-      "firefox/latest",
-      "safari/latest",
-      "opera/latest",
-      "iphone/6",
-      "ipad/6",
-      "android-browser/latest"
-    ]
-  }
+    "name": "embed-video",
+    "version": "1.0.2",
+    "description": "Get embed code for embedding youtube/vimeo/whatever video in websites from URL or ID",
+    "main": "embed.video.js",
+    "scripts": {
+        "test": "tape test.js"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git://github.com/alanshaw/embed-video.git"
+    },
+    "keywords": [
+        "video",
+        "movie",
+        "embed",
+        "code",
+        "share",
+        "vimeo",
+        "youtube"
+    ],
+    "author": "Alan Shaw",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/alanshaw/embed-video/issues"
+    },
+    "homepage": "https://github.com/alanshaw/embed-video",
+    "devDependencies": {
+        "tape": "^3.0.1"
+    },
+    "testling": {
+        "files": "test.js",
+        "browsers": [
+            "ie/8..latest",
+            "chrome/latest",
+            "firefox/latest",
+            "safari/latest",
+            "opera/latest",
+            "iphone/6",
+            "ipad/6",
+            "android-browser/latest"
+        ]
+    }
 }

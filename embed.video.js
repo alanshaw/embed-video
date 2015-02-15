@@ -130,6 +130,20 @@
         }
     }
 
+    Embed.prototype.id = function() {
+        for (var parser in parsers) {
+            if (parsers.hasOwnProperty(parser)) {
+                return parsers[parser].parse(this.url, function(id, iframe) {
+                    if (typeof id === 'object' && id !== null) {
+                        return id.path.split("/")[1];
+                    } else if (typeof id === 'string' && id !== null) {
+                        return id;
+                    }
+                });
+            }
+        }
+    };
+
     /**
      * Main function
      */
