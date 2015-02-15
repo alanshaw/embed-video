@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title></title>
+</head>
+
+<body>
+    <div class="youtube"></div>
+    <div class="vimeo"></div>
+    <script src="https://code.jquery.com/jquery-1.11.2.min.js"></script>
+    <script type="text/javascript" src="../index.js"></script>
+    <script type="text/javascript"></script>
+    <script type="text/javascript">
+    console.log(embed("http://youtu.be/TIoy8J9OgIM").youtube());
+    $('.youtube').append(embed("http://youtu.be/TIoy8J9OgIM", {
+        width: '560',
+        height: '315'
+    }).youtube());
+    $('.vimeo').append(embed('https://vimeo.com/118919656', {
+        height: '281',
+        width: '500'
+    }).vimeo())
+    </script>
+
+</body>
+
+</html>
