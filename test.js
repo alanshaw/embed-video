@@ -37,8 +37,8 @@ test("accept query param youtube", function (t) {
   t.equal(code, '<iframe src="//www.youtube.com/embed/9XeNNqeHVDw?rel=0&showinfo=0" frameborder="0" allowfullscreen></iframe>')
 })
 
-test("accept query param vimeo"), function (t) {
+test("accept query param vimeo", function (t) {
   t.plan(1)
   var code = embed.vimeo("19339941", { query: { portrait: 0, color: '333' } } )
   t.equal(code, '<iframe src="//player.vimeo.com/video/19339941?portrait=0&color=333" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>')
-}
+})
