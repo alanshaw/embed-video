@@ -12,6 +12,15 @@ function embed (url, opts) {
   if (id) return embed.vimeo(id, opts)
 }
 
+embed.image = function (url, opts) {
+  var id
+
+  url = URL.parse(url, true)
+
+  id = detectYoutube(url)
+  if (id) return embed.youtube.image(id, opts)
+}
+
 function detectVimeo (url) {
   return (url.hostname == "vimeo.com") ? url.pathname.split("/")[1] : null
 }
@@ -44,6 +53,12 @@ embed.youtube = function (id, opts) {
     queryString = "?" + serializeQuery(opts.query)
   }
   return '<iframe src="//www.youtube.com/embed/' + id + queryString + '" frameborder="0" allowfullscreen></iframe>'
+}
+
+embed.youtube.image = function (id, opts) {
+  opts = opts || {}
+  opts.image = opts.image || 'default'
+  return '<img src="//img.youtube.com/vi/' + id + '/' + opts.image + '.jpg"/>'
 }
 
 function serializeQuery (query) {

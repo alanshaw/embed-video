@@ -51,6 +51,14 @@ Return an HTML fragment embed code (string) for the given _vimeo_ video ID.
 
 Return an HTML fragment embed code (string) for the given _youtube_ video ID.
 
+### var embedCode = embed.image(url, [options])
+
+Return a HTML `<img>` tag (string) for the given url (YouTube only).
+
+### var embedCode = embed.youtube.image(url, [options])
+
+Return a HTML `<img>` tag (string) for the given url.
+
 ## Options
 
 ### query
