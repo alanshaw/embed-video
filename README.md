@@ -76,3 +76,17 @@ Output:
 ```html
 <iframe src="//player.vimeo.com/video/19339941?portrait=0&color=333" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
 ```
+
+#### Youtube Image options
+
+|option|image|
+|:------|:-----:|
+|default|![](http://img.youtube.com/vi/eob7V_WtAVg/default.jpg)|
+|mqdefault|![](http://img.youtube.com/vi/eob7V_WtAVg/mqdefault.jpg)|
+|hqdefault|![](http://img.youtube.com/vi/eob7V_WtAVg/hqdefault.jpg)|
+|sddefault|![](http://img.youtube.com/vi/eob7V_WtAVg/sddefault.jpg)|
+|maxresdefault|![](http://img.youtube.com/vi/eob7V_WtAVg/maxresdefault.jpg)|
+
+```js
+embedVideo.image('https://www.youtube.com/watch?v=ekETjYMo6QE', {image: 'mqdefault'})
+```
