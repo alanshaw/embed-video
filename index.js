@@ -109,7 +109,7 @@ embed.vimeo.image = function (id, opts, cb) {
     if (res.statusCode !== 200) return cb(new Error('no response from vimeo'))
     if (!body || !body[0][opts.image]) return cb(new Error('no image found for vimeo.com/' + id))
 
-    var src = body[0][opts.image]
+    var src = body[0][opts.image].split(':')[1]
 
     var result = {
       src: src,
