@@ -51,17 +51,17 @@ Return an HTML fragment embed code (string) for the given _vimeo_ video ID.
 
 Return an HTML fragment embed code (string) for the given _youtube_ video ID.
 
-### var embedCode = embed.image(url, [options])
+### var embedCode = embed.image(url, [options], [callback])
 
-Return a HTML `<img>` tag (string) for the given url.
+Return a HTML `<img>` tag (string) for the given url. Vimeo thumbnails are returned in a callback.
 
-### var embedCode = embed.youtube.image(url, [options])
+### var embedCode = embed.youtube.image(url, [options], [callback])
 
-Return a HTML `<img>` tag (string) for the given url.
+Return a HTML `<img>` tag (string) for the given url. Can be returned in a callback if one is passed.
 
 ### var embedCode = embed.youtube.image(url, [options], callback)
 
-Return a HTML `<img>` tag (string) for the given url asynchronously
+Return a HTML `<img>` tag (string) for the given url asynchronously in a callback *e.g (err, imageTag)*
 
 ## Options
 
