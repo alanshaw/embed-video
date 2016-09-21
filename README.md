@@ -53,11 +53,15 @@ Return an HTML fragment embed code (string) for the given _youtube_ video ID.
 
 ### var embedCode = embed.image(url, [options])
 
-Return a HTML `<img>` tag (string) for the given url (YouTube only).
+Return a HTML `<img>` tag (string) for the given url.
 
 ### var embedCode = embed.youtube.image(url, [options])
 
 Return a HTML `<img>` tag (string) for the given url.
+
+### var embedCode = embed.youtube.image(url, [options], callback)
+
+Return a HTML `<img>` tag (string) for the given url asynchronously
 
 ## Options
 
@@ -89,4 +93,20 @@ Output:
 
 ```js
 embedVideo.image('https://www.youtube.com/watch?v=ekETjYMo6QE', {image: 'mqdefault'})
+```
+
+#### Vimeo Image options
+
+|option|image|
+|:---|:---|
+|thumbnail_small|![](http://i.vimeocdn.com/video/122513613_100x75.jpg)|
+|thumbnail_medium|![](http://i.vimeocdn.com/video/122513613_200x150.jpg)|
+|thumbnail_large|![](http://i.vimeocdn.com/video/122513613_640.jpg)|
+
+```js
+embedVideo.image('https://vimeo.com/19339941', {image: 'thumbnail_medium'}, function (err, tag) {
+  if (err) throw new Error(err)
+  console.log(tag)
+  // <img src="http://i.vimeocdn.com/video/122513613_200x150.jpg"/>
+})
 ```

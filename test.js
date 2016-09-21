@@ -1,5 +1,5 @@
 var test = require("tape")
-  , embed = require("./")
+var embed = require("./")
 
 test("convert vimeo.com url", function (t) {
   t.plan(1)
@@ -41,4 +41,20 @@ test("accept query param vimeo", function (t) {
   t.plan(1)
   var code = embed.vimeo("19339941", { query: { portrait: 0, color: '333' } } )
   t.equal(code, '<iframe src="//player.vimeo.com/video/19339941?portrait=0&color=333" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>')
+})
+
+test("get vimeo thumbnail", function (t) {
+  t.plan(2)
+  embed.image('https://vimeo.com/19339941', function (err, tag) {
+    t.ifError(err, 'no errors')
+    t.equal(tag, '<img src="http://i.vimeocdn.com/video/122513613_640.jpg"/>', 'correctly fetches thumbnail')
+  })
+})
+
+test("get vimeo thumbnail with options", function (t) {
+  t.plan(2)
+  embed.image('https://vimeo.com/19339941', {image: 'thumbnail_small'}, function (err, tag) {
+    t.ifError(err, 'no errors')
+    t.equal(tag, '<img src="http://i.vimeocdn.com/video/122513613_100x75.jpg"/>', 'correctly applys options thumbnail')
+  })
 })

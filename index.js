@@ -1,4 +1,7 @@
-var URL = require("url")
+var URL = require('url')
+var request = require('request')
+
+function noop () {}
 
 function embed (url, opts) {
   var id
@@ -12,13 +15,23 @@ function embed (url, opts) {
   if (id) return embed.vimeo(id, opts)
 }
 
-embed.image = function (url, opts) {
+embed.image = function (url, opts, cb) {
+  if (typeof opts === 'function') {
+    cb = opts
+    opts = {}
+  }
+  cb = cb || noop
+  opts = opts || {}
+
   var id
 
   url = URL.parse(url, true)
 
   id = detectYoutube(url)
-  if (id) return embed.youtube.image(id, opts)
+  if (id) return embed.youtube.image(id, opts, cb)
+
+  id = detectVimeo(url)
+  if (id) return embed.vimeo.image(id, opts, cb)
 }
 
 function detectVimeo (url) {
@@ -55,10 +68,35 @@ embed.youtube = function (id, opts) {
   return '<iframe src="//www.youtube.com/embed/' + id + queryString + '" frameborder="0" allowfullscreen></iframe>'
 }
 
-embed.youtube.image = function (id, opts) {
+embed.youtube.image = function (id, opts, cb) {
+  if (typeof opts === 'function') {
+    cb = opts
+    opts = {}
+  }
+  cb = cb || noop
   opts = opts || {}
   opts.image = opts.image || 'default'
-  return '<img src="//img.youtube.com/vi/' + id + '/' + opts.image + '.jpg"/>'
+  var tag = '<img src="//img.youtube.com/vi/' + id + '/' + opts.image + '.jpg"/>'
+  if (cb) return cb(null, tag)
+  return tag
+}
+
+embed.vimeo.image = function (id, opts, cb) {
+  if (typeof opts === 'function') {
+    cb = opts
+    opts = {}
+  }
+  cb = cb || noop
+  opts = opts || {}
+
+  opts.image = opts.image || 'thumbnail_large'
+
+  request.get({
+    url: 'http://vimeo.com/api/v2/video/' + id + '.json',
+    json: true
+  }, function (err, res, body) {
+    cb(err, '<img src="' + body[0][opts.image] + '"/>')
+  })
 }
 
 function serializeQuery (query) {
