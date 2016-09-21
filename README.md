@@ -51,17 +51,16 @@ Return an HTML fragment embed code (string) for the given _vimeo_ video ID.
 
 Return an HTML fragment embed code (string) for the given _youtube_ video ID.
 
-### var embedCode = embed.image(url, [options], [callback])
+### var embedCode = embed.image(url, [options], callback)
 
-Return a HTML `<img>` tag (string) for the given url. Vimeo thumbnails are returned in a callback.
+Returns an HTML `<img>` tag (string) for the given url and the `src` in a callback. Works for **youtube** and **vimeo**.
 
-### var embedCode = embed.youtube.image(url, [options], [callback])
-
-Return a HTML `<img>` tag (string) for the given url. Can be returned in a callback if one is passed.
-
-### var embedCode = embed.youtube.image(url, [options], callback)
-
-Return a HTML `<img>` tag (string) for the given url asynchronously in a callback *e.g (err, imageTag)*
+```js
+{
+  src: http://img.youtube.com/vi/eob7V_WtAVg/default.jpg,
+  html: <img src="http://img.youtube.com/vi/eob7V_WtAVg/default.jpg"/>
+}
+```
 
 ## Options
 
@@ -92,7 +91,13 @@ Output:
 |maxresdefault|![](http://img.youtube.com/vi/eob7V_WtAVg/maxresdefault.jpg)|
 
 ```js
-embedVideo.image('https://www.youtube.com/watch?v=ekETjYMo6QE', {image: 'mqdefault'})
+embedVideo.image('https://www.youtube.com/watch?v=ekETjYMo6QE', {image: 'mqdefault'}, function (err, thumbnail) {
+  if (err) throw err
+  console.log(thumbnail.src)
+  // https://img.youtube.com/vi/ekETjYMo6QE/mqdefault.jpg
+  console.log(thumbnail.html)
+  // <img src="https://img.youtube.com/vi/ekETjYMo6QE/mqdefault.jpg"/>  
+})
 ```
 
 #### Vimeo Image options
@@ -104,9 +109,11 @@ embedVideo.image('https://www.youtube.com/watch?v=ekETjYMo6QE', {image: 'mqdefau
 |thumbnail_large|![](http://i.vimeocdn.com/video/122513613_640.jpg)|
 
 ```js
-embedVideo.image('https://vimeo.com/19339941', {image: 'thumbnail_medium'}, function (err, tag) {
-  if (err) throw new Error(err)
-  console.log(tag)
+embedVideo.image('https://vimeo.com/19339941', {image: 'thumbnail_medium'}, function (err, thumbnail) {
+  if (err) throw err
+  console.log(thumbnail.src)
+  // http://i.vimeocdn.com/video/122513613_200x150.jpg
+  console.log(thumbnail.html)
   // <img src="http://i.vimeocdn.com/video/122513613_200x150.jpg"/>
 })
 ```

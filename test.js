@@ -44,17 +44,26 @@ test("accept query param vimeo", function (t) {
 })
 
 test("get vimeo thumbnail", function (t) {
-  t.plan(2)
-  embed.image('https://vimeo.com/19339941', function (err, tag) {
+  t.plan(3)
+  embed.image('https://vimeo.com/19339941', function (err, thumbnail) {
     t.ifError(err, 'no errors')
-    t.equal(tag, '<img src="http://i.vimeocdn.com/video/122513613_640.jpg"/>', 'correctly fetches thumbnail')
+    t.equal(thumbnail.src, 'http://i.vimeocdn.com/video/122513613_640.jpg', 'embed.image returns an object with a src')
+    t.equal(thumbnail.html, '<img src="http://i.vimeocdn.com/video/122513613_640.jpg"/>', 'and an html tag')
   })
 })
 
 test("get vimeo thumbnail with options", function (t) {
   t.plan(2)
-  embed.image('https://vimeo.com/19339941', {image: 'thumbnail_small'}, function (err, tag) {
+  embed.image('https://vimeo.com/19339941', {image: 'thumbnail_small'}, function (err, thumbnail) {
     t.ifError(err, 'no errors')
-    t.equal(tag, '<img src="http://i.vimeocdn.com/video/122513613_100x75.jpg"/>', 'correctly applys options thumbnail')
+    t.equal(thumbnail.html, '<img src="http://i.vimeocdn.com/video/122513613_100x75.jpg"/>', 'correctly applys options thumbnail')
+  })
+})
+
+test("get default vimeo thumbnail with invalid options", function (t) {
+  t.plan(2)
+  embed.image('https://vimeo.com/19339941', {image: 'what-rubbish'}, function (err, thumbnail) {
+    t.ifError(err, 'no errors')
+    t.equal(thumbnail.html, '<img src="http://i.vimeocdn.com/video/122513613_640.jpg"/>', 'correctly applys options thumbnail')
   })
 })

@@ -1,7 +1,8 @@
 var URL = require('url')
 var request = require('request')
 
-function noop () {}
+var validVimeoOpts = ['thumbnail_small', 'thumbnail_medium', 'thumbnail_large']
+var validYouTubeOpts = ['default', 'mqdefault', 'hqdefault', 'sddefault', 'maxresdefault']
 
 function embed (url, opts) {
   var id
@@ -20,7 +21,6 @@ embed.image = function (url, opts, cb) {
     cb = opts
     opts = {}
   }
-  cb = cb || noop
   opts = opts || {}
 
   var id
@@ -73,12 +73,20 @@ embed.youtube.image = function (id, opts, cb) {
     cb = opts
     opts = {}
   }
-  cb = cb || noop
   opts = opts || {}
-  opts.image = opts.image || 'default'
-  var tag = '<img src="//img.youtube.com/vi/' + id + '/' + opts.image + '.jpg"/>'
-  if (cb) return cb(null, tag)
-  return tag
+
+  opts.image = validYouTubeOpts.indexOf(opts.image) > 0 ? opts.image : 'default'
+
+  var src = '//img.youtube.com/vi/' + id + '/' + opts.image + '.jpg'
+
+  var result = {
+    src: src,
+    html: '<img src="' + src + '"/>'
+  }
+
+  if (!cb) return result
+
+  setTimeout(function () { cb(null, result) }, 1)
 }
 
 embed.vimeo.image = function (id, opts, cb) {
@@ -86,16 +94,29 @@ embed.vimeo.image = function (id, opts, cb) {
     cb = opts
     opts = {}
   }
-  cb = cb || noop
+
+  if (!cb) return new Error('must pass embed.vimeo.image a callback')
+
   opts = opts || {}
 
-  opts.image = opts.image || 'thumbnail_large'
+  opts.image = validVimeoOpts.indexOf(opts.image) >= 0 ? opts.image : 'thumbnail_large'
 
   request.get({
     url: 'http://vimeo.com/api/v2/video/' + id + '.json',
     json: true
   }, function (err, res, body) {
-    cb(err, '<img src="' + body[0][opts.image] + '"/>')
+    if (err) return cb(err)
+    if (res.statusCode !== 200) return cb(new Error('no response from vimeo'))
+    if (!body || !body[0][opts.image]) return cb(new Error('no image found for vimeo.com/' + id))
+
+    var src = body[0][opts.image]
+
+    var result = {
+      src: src,
+      html: '<img src="' + src + '"/>'
+    }
+
+    cb(null, result)
   })
 }
 
