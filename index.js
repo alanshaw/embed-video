@@ -17,12 +17,6 @@ function embed (url, opts) {
 }
 
 embed.image = function (url, opts, cb) {
-  if (typeof opts === 'function') {
-    cb = opts
-    opts = {}
-  }
-  opts = opts || {}
-
   var id
 
   url = URL.parse(url, true)
@@ -84,7 +78,7 @@ embed.youtube.image = function (id, opts, cb) {
     html: '<img src="' + src + '"/>'
   }
 
-  if (!cb) return result
+  if (!cb) return result.html
 
   setTimeout(function () { cb(null, result) }, 1)
 }
@@ -95,7 +89,7 @@ embed.vimeo.image = function (id, opts, cb) {
     opts = {}
   }
 
-  if (!cb) return new Error('must pass embed.vimeo.image a callback')
+  if (!cb) throw new Error('must pass embed.vimeo.image a callback')
 
   opts = opts || {}
 
@@ -106,8 +100,8 @@ embed.vimeo.image = function (id, opts, cb) {
     json: true
   }, function (err, res, body) {
     if (err) return cb(err)
-    if (res.statusCode !== 200) return cb(new Error('no response from vimeo'))
-    if (!body || !body[0][opts.image]) return cb(new Error('no image found for vimeo.com/' + id))
+    if (res.statusCode !== 200) return cb(new Error('unexpected response from vimeo'))
+    if (!body || !body[0] || !body[0][opts.image]) return cb(new Error('no image found for vimeo.com/' + id))
 
     var src = body[0][opts.image].split(':')[1]
 

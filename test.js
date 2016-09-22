@@ -68,8 +68,8 @@ test("get default vimeo thumbnail with invalid options", function (t) {
   })
 })
 
-test("get youtube thumbnail", function (t) {
+test("get youtube thumbnail (prove backwards compatibility)", function (t) {
   t.plan(1)
-  var thumbnail = embed.image('https://youtu.be/ZeLnjXTNq6Q', {image: 'maxresdefault'})
-  t.equal(thumbnail.src, '//img.youtube.com/vi/ZeLnjXTNq6Q/maxresdefault.jpg', 'retains synchronous behaviour and returns src')
+  var embedImage = embed.image('https://youtu.be/ZeLnjXTNq6Q', {image: 'maxresdefault'})
+  t.equal(embedImage, '<img src="//img.youtube.com/vi/ZeLnjXTNq6Q/maxresdefault.jpg"/>', 'retains synchronous behaviour and returns html image tag')
 })
