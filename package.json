@@ -40,5 +40,8 @@
       "ipad/6",
       "android-browser/latest"
     ]
+  },
+  "dependencies": {
+    "request": "^2.75.0"
   }
 }
