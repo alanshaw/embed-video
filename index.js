@@ -52,7 +52,7 @@ embed.vimeo = function (id, opts) {
   }
   return '<iframe src="//player.vimeo.com/video/' 
           + id + opts.query 
-          + '" frameborder="0"' 
+          + '" frameborder="0" ' 
           + opts.attr 
           + 'webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>'
 }
@@ -62,7 +62,7 @@ embed.youtube = function (id, opts) {
 
   return '<iframe src="//www.youtube.com/embed/' 
           + id + opts.query  
-          + '" frameborder="0" allowfullscreen '
+          + '" frameborder="0" allowfullscreen'
           + opts.attr
           + '></iframe>'
 }
