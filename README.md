@@ -68,6 +68,7 @@ Returns an HTML `<img>` tag (string) for the given url and the `src` in a callba
 
 Object to be serialized as a querystring and appended to the embedded content url.
 
+
 #### Example
 
 ```js
@@ -79,6 +80,21 @@ Output:
 ```html
 <iframe src="//player.vimeo.com/video/19339941?portrait=0&color=333" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
 ```
+### attributes
+
+Object to add additional attributes (any) to the iframe
+
+#### Example
+
+```js
+console.log(embed('https://youtu.be/jglUWD3KMh4', {query: {portrait: 0, color: '333'}, attr:{width:400, height:200}}))
+```
+
+Output:
+```html
+<iframe src="//www.youtube.com/embed/jglUWD3KMh4?portrait=0&color=333" frameborder="0" allowfullscreen width="400" height="200"></iframe>
+```
+
 
 #### Youtube Image options
 
