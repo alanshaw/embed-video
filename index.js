@@ -1,5 +1,6 @@
 var URL = require('url')
 var request = require('request')
+var escape = require('lodash.escape');
 
 var validVimeoOpts = ['thumbnail_small', 'thumbnail_medium', 'thumbnail_large']
 var validYouTubeOpts = ['default', 'mqdefault', 'hqdefault', 'sddefault', 'maxresdefault']
@@ -45,7 +46,7 @@ function detectYoutube (url) {
 }
 
 embed.vimeo = function (id, opts) {
-  opts = setOptions(opts);
+  opts = parseOptions(opts);
 
   if (opts && opts.hasOwnProperty('query')){
     queryString = "?" + serializeQuery(opts.query)
@@ -57,7 +58,7 @@ embed.vimeo = function (id, opts) {
 }
 
 embed.youtube = function (id, opts) {
-  opts = setOptions(opts);
+  opts = parseOptions(opts);
 
   return '<iframe src="//www.youtube.com/embed/' 
           + id + opts.query + '"' + opts.attr
@@ -126,17 +127,18 @@ function serializeQuery (query) {
   return queryString.join("&")
 }
 
-function setOptions (opts) {
-  var queryString = '', attributes = []
+function parseOptions (opts) {
+  var queryString = '', attributes = ''
   if (opts && opts.hasOwnProperty('query')) {
     queryString = "?" + serializeQuery(opts.query)
   }
 
   if(opts && opts.hasOwnProperty('attr')) {
-    Object.keys(opts.attr).map(function(key, index) {
-      attributes.push(key + '="' + opts.attr[key] + '"')
+    temp = []
+    Object.keys(opts.attr).map(function(key) {
+      temp.push(key + '="' + escape(opts.attr[key]) + '"')
     });
-    attributes = ' ' + attributes.join(' ');
+    attributes = ' ' + temp.join(' ')
   }
   return {query: queryString, attr: attributes}
 }
