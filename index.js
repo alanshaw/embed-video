@@ -1,5 +1,6 @@
 var URL = require('url')
 var request = require('request')
+var escape = require('lodash.escape');
 
 var validVimeoOpts = ['thumbnail_small', 'thumbnail_medium', 'thumbnail_large']
 var validYouTubeOpts = ['default', 'mqdefault', 'hqdefault', 'sddefault', 'maxresdefault']
@@ -45,21 +46,23 @@ function detectYoutube (url) {
 }
 
 embed.vimeo = function (id, opts) {
-  // TODO: use opts to set iframe attrs.
-  var queryString = ''
+  opts = parseOptions(opts);
+
   if (opts && opts.hasOwnProperty('query')){
     queryString = "?" + serializeQuery(opts.query)
   }
-  return '<iframe src="//player.vimeo.com/video/' + id + queryString + '" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>'
+
+  return '<iframe src="//player.vimeo.com/video/' 
+          + id + opts.query + '"' + opts.attr
+          + ' frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>'
 }
 
 embed.youtube = function (id, opts) {
-  // TODO: use opts to set iframe attrs.
-  var queryString = ''
-  if (opts && opts.hasOwnProperty('query')){
-    queryString = "?" + serializeQuery(opts.query)
-  }
-  return '<iframe src="//www.youtube.com/embed/' + id + queryString + '" frameborder="0" allowfullscreen></iframe>'
+  opts = parseOptions(opts);
+
+  return '<iframe src="//www.youtube.com/embed/' 
+          + id + opts.query + '"' + opts.attr
+          + ' frameborder="0" allowfullscreen></iframe>'
 }
 
 embed.youtube.image = function (id, opts, cb) {
@@ -122,6 +125,22 @@ function serializeQuery (query) {
     }
   }
   return queryString.join("&")
+}
+
+function parseOptions (opts) {
+  var queryString = '', attributes = ''
+  if (opts && opts.hasOwnProperty('query')) {
+    queryString = "?" + serializeQuery(opts.query)
+  }
+
+  if(opts && opts.hasOwnProperty('attr')) {
+    var temp = []
+    Object.keys(opts.attr).forEach(function(key) {
+      temp.push(key + '="' + escape(opts.attr[key]) + '"')
+    });
+    attributes = ' ' + temp.join(' ')
+  }
+  return {query: queryString, attr: attributes}
 }
 
 module.exports = embed
