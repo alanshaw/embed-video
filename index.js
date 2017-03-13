@@ -134,8 +134,8 @@ function parseOptions (opts) {
   }
 
   if(opts && opts.hasOwnProperty('attr')) {
-    temp = []
-    Object.keys(opts.attr).map(function(key) {
+    var temp = []
+    Object.keys(opts.attr).forEach(function(key) {
       temp.push(key + '="' + escape(opts.attr[key]) + '"')
     });
     attributes = ' ' + temp.join(' ')
