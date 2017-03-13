@@ -50,21 +50,18 @@ embed.vimeo = function (id, opts) {
   if (opts && opts.hasOwnProperty('query')){
     queryString = "?" + serializeQuery(opts.query)
   }
+
   return '<iframe src="//player.vimeo.com/video/' 
-          + id + opts.query 
-          + '" frameborder="0" ' 
-          + opts.attr 
-          + 'webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>'
+          + id + opts.query + '"' + opts.attr
+          + ' frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>'
 }
 
 embed.youtube = function (id, opts) {
   opts = setOptions(opts);
 
   return '<iframe src="//www.youtube.com/embed/' 
-          + id + opts.query  
-          + '" frameborder="0" allowfullscreen'
-          + opts.attr
-          + '></iframe>'
+          + id + opts.query + '"' + opts.attr
+          + ' frameborder="0" allowfullscreen></iframe>'
 }
 
 embed.youtube.image = function (id, opts, cb) {
@@ -139,8 +136,9 @@ function setOptions (opts) {
     Object.keys(opts.attr).map(function(key, index) {
       attributes.push(key + '="' + opts.attr[key] + '"')
     });
+    attributes = ' ' + attributes.join(' ');
   }
-  return {query: queryString, attr: attributes.join(' ')}
+  return {query: queryString, attr: attributes}
 }
 
 module.exports = embed
