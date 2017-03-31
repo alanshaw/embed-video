@@ -19,6 +19,18 @@ test("convert youtu.be url", function (t) {
   t.equal(code, '<iframe src="//www.youtube.com/embed/9XeNNqeHVDw" frameborder="0" allowfullscreen></iframe>')
 })
 
+test("convert dailymotion.com url", function(t) {
+  t.plan(1)
+  var code = embed("https://www.dailymotion.com/video/x20qnej_red-bull-presents-wild-ride-bmx-mtb-dirt_sport")
+  t.equal(code, '<iframe src="//www.dailymotion.com/embed/video/x20qnej" frameborder="0" allowfullscreen></iframe>')
+})
+
+test("convert dai.ly url", function(t) {
+  t.plan(1)
+  var code = embed("http://dai.ly/x20qnej")
+  t.equal(code, '<iframe src="//www.dailymotion.com/embed/video/x20qnej" frameborder="0" allowfullscreen></iframe>')
+})
+
 test("convert vimeo id", function (t) {
   t.plan(1)
   var code = embed.vimeo("19339941")
@@ -29,6 +41,12 @@ test("convert youtube id", function (t) {
   t.plan(1)
   var code = embed.youtube("9XeNNqeHVDw")
   t.equal(code, '<iframe src="//www.youtube.com/embed/9XeNNqeHVDw" frameborder="0" allowfullscreen></iframe>')
+})
+
+test("convert dailymotion id", function(t) {
+  t.plan(1)
+  var code = embed.dailymotion("x20qnej")
+  t.equal(code, '<iframe src="//www.dailymotion.com/embed/video/x20qnej" frameborder="0" allowfullscreen></iframe>')
 })
 
 test("accept query param youtube", function (t) {
@@ -49,10 +67,22 @@ test("accept query param vimeo", function (t) {
   t.equal(code, '<iframe src="//player.vimeo.com/video/19339941?portrait=0&color=333" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>')
 })
 
-test("accept query param vimeo", function (t) {
+test("accept attributes vimeo", function (t) {
   t.plan(1)
   var code = embed.vimeo("19339941", { query: { portrait: 0, color: '333' }, attr:{ width: 400, height: 200} } )
   t.equal(code, '<iframe src="//player.vimeo.com/video/19339941?portrait=0&color=333" width="400" height="200" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>')
+})
+
+test("accept query param dailymotion", function(t) {
+  t.plan(1)
+  var code = embed.dailymotion("x20qnej", { query: { autoPlay: 1, start: 66 } })
+  t.equal(code, '<iframe src="//www.dailymotion.com/embed/video/x20qnej?autoPlay=1&start=66" frameborder="0" allowfullscreen></iframe>')
+})
+
+test("accept attributes dailymotion", function(t) {
+  t.plan(1)
+  var code = embed.dailymotion("x20qnej", { query: { autoPlay: 1, start: 66 }, attr: { width: 400, height: 200 } })
+  t.equal(code, '<iframe src="//www.dailymotion.com/embed/video/x20qnej?autoPlay=1&start=66" width="400" height="200" frameborder="0" allowfullscreen></iframe>')
 })
 
 test("get vimeo thumbnail", function (t) {
@@ -84,4 +114,30 @@ test("get youtube thumbnail (prove backwards compatibility)", function (t) {
   t.plan(1)
   var embedImage = embed.image('https://youtu.be/ZeLnjXTNq6Q', {image: 'maxresdefault'})
   t.equal(embedImage, '<img src="//img.youtube.com/vi/ZeLnjXTNq6Q/maxresdefault.jpg"/>', 'retains synchronous behaviour and returns html image tag')
+})
+
+test("get dailymotion thumbnail", function(t) {
+  t.plan(3)
+  embed.image('https://www.dailymotion.com/video/x20qnej_red-bull-presents-wild-ride-bmx-mtb-dirt_sport', function(err, thumbnail) {
+    t.ifError(err, 'no errors')
+    t.equal(thumbnail.src, 'http://s1.dmcdn.net/IgPVQ/x480-ktj.jpg', 'embed.image returns an object with a src')
+    t.equal(thumbnail.html, '<img src="http://s1.dmcdn.net/IgPVQ/x480-ktj.jpg"/>', 'and an html tag')
+  })
+})
+
+test("get dailymotion thumbnail with options", function(t) {
+  t.plan(2)
+  embed.image('https://www.dailymotion.com/video/x20qnej_red-bull-presents-wild-ride-bmx-mtb-dirt_sport', { image: 'thumbnail_720_url' }, function(err, thumbnail) {
+    t.ifError(err, 'no errors')
+    t.equal(thumbnail.html, '<img src="http://s1.dmcdn.net/IgPVQ/x720-d_h.jpg"/>', 'correctly applys options thumbnail')
+  })
+})
+
+test("get dailymotion thumbnail (dai.ly)", function(t) {
+  t.plan(3)
+  embed.image('http://dai.ly/x20qnej', function(err, thumbnail) {
+    t.ifError(err, 'no errors')
+    t.equal(thumbnail.src, 'http://s1.dmcdn.net/IgPVQ/x480-ktj.jpg', 'embed.image returns an object with a src')
+    t.equal(thumbnail.html, '<img src="http://s1.dmcdn.net/IgPVQ/x480-ktj.jpg"/>', 'and an html tag')
+  })
 })
