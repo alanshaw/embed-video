@@ -2,8 +2,28 @@ var URL = require('url')
 var request = require('request')
 var escape = require('lodash.escape');
 
-var validVimeoOpts = ['thumbnail_small', 'thumbnail_medium', 'thumbnail_large']
-var validYouTubeOpts = ['default', 'mqdefault', 'hqdefault', 'sddefault', 'maxresdefault']
+var validVimeoOpts = [
+  'thumbnail_small',
+  'thumbnail_medium',
+  'thumbnail_large'
+];
+var validYouTubeOpts = [
+  'default',
+  'mqdefault',
+  'hqdefault',
+  'sddefault',
+  'maxresdefault'
+];
+var validDailyMotionOpts = [
+  'thumbnail_60_url',
+  'thumbnail_120_url',
+  'thumbnail_180_url',
+  'thumbnail_240_url',
+  'thumbnail_360_url',
+  'thumbnail_480_url',
+  'thumbnail_720_url',
+  'thumbnail_1080_url'
+];
 
 function embed (url, opts) {
   var id
@@ -15,6 +35,9 @@ function embed (url, opts) {
 
   id = detectVimeo(url)
   if (id) return embed.vimeo(id, opts)
+
+  id = detectDailymotion(url)
+  if (id) return embed.dailymotion(id, opts)
 }
 
 embed.image = function (url, opts, cb) {
@@ -27,6 +50,9 @@ embed.image = function (url, opts, cb) {
 
   id = detectVimeo(url)
   if (id) return embed.vimeo.image(id, opts, cb)
+
+  id = detectDailymotion(url)
+  if (id) return embed.dailymotion.image(id, opts, cb)
 }
 
 function detectVimeo (url) {
@@ -39,6 +65,18 @@ function detectYoutube (url) {
   }
 
   if (url.hostname == "youtu.be") {
+    return url.pathname.split("/")[1]
+  }
+
+  return null
+}
+
+function detectDailymotion(url) {
+  if (url.hostname.indexOf("dailymotion.com") > -1) {
+    return url.pathname.split("/")[2].split("_")[0]
+  }
+
+  if (url.hostname === "dai.ly") {
     return url.pathname.split("/")[1]
   }
 
@@ -63,6 +101,18 @@ embed.youtube = function (id, opts) {
   return '<iframe src="//www.youtube.com/embed/' 
           + id + opts.query + '"' + opts.attr
           + ' frameborder="0" allowfullscreen></iframe>'
+}
+
+embed.dailymotion = function(id, opts) {
+  opts = parseOptions(opts);
+
+  if (opts && opts.hasOwnProperty("query")) {
+    queryString = "?" + serializeQuery(opts.query);
+  }
+
+  return '<iframe src="//www.dailymotion.com/embed/video/'
+         + id + opts.query + '"' + opts.attr
+         + ' frameborder="0" allowfullscreen></iframe>';
 }
 
 embed.youtube.image = function (id, opts, cb) {
@@ -111,6 +161,36 @@ embed.vimeo.image = function (id, opts, cb) {
     var result = {
       src: src,
       html: '<img src="' + src + '"/>'
+    }
+
+    cb(null, result)
+  })
+}
+
+embed.dailymotion.image = function(id, opts, cb) {
+  if (typeof opts === 'function') {
+    cb = opts
+    opts = {}
+  }
+
+  if (!cb) throw new Error('must pass embed.dailymotion.image a callback')
+
+  opts = opts || {}
+
+  opts.image = validDailyMotionOpts.indexOf(opts.image) >= 0 ? opts.image : 'thumbnail_480_url'
+
+  request.get({
+    url: 'https://api.dailymotion.com/video/' + id + '?fields=' + opts.image,
+    json: true
+  }, function(err, res, body) {
+    if (err) return cb(err)
+    if (res.statusCode !== 200) return cb(new Error('unexpected response from dailymotion'))
+    if (!body || !body[opts.image]) return cb(new Error('no image found for dailymotion.com/' + id))
+    var src = body[opts.image]
+
+    var result = {
+        src: src,
+        html: '<img src="' + src + '"/>'
     }
 
     cb(null, result)

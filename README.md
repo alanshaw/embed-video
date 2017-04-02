@@ -1,8 +1,8 @@
 # embed-video [![Build Status](http://img.shields.io/travis/alanshaw/embed-video.svg)](https://travis-ci.org/alanshaw/embed-video) [![devDependency Status](https://david-dm.org/alanshaw/embed-video/dev-status.svg)](https://david-dm.org/alanshaw/embed-video#info=devDependencies)
 
-Get embed code for embedding youtube/vimeo/whatever video in websites from URL or ID.
+Get embed code for embedding youtube/vimeo/dailymotion/whatever video in websites from URL or ID.
 
-Currently supports YouTube and Vimeo. Please pull request to add others!
+Currently supports YouTube, Vimeo and DailyMotion. Please pull request to add others!
 
 [![browser support](https://ci.testling.com/alanshaw/embed-video.png)](https://ci.testling.com/alanshaw/embed-video)
 
@@ -13,15 +13,19 @@ var embed = require("embed-video")
 
 var vimeoUrl = "http://vimeo.com/19339941"
 var youtubeUrl = "https://www.youtube.com/watch?v=twE64AuqE9A"
+var dailymotionUrl = "https://www.dailymotion.com/video/x20qnej_red-bull-presents-wild-ride-bmx-mtb-dirt_sport"
 
 console.log(embed(vimeoUrl))
 console.log(embed(youtubeUrl))
+console.log(embed(dailymotionUrl))
 
 var vimeoId = "6964150"
 var youtubeId = "9XeNNqeHVDw"
+var dailymotionId = "x20qnej"
 
 console.log(embed.vimeo(vimeoId))
 console.log(embed.youtube(youtubeId))
+console.log(embed.dailymotion(dailymotionId))
 ```
 
 Output:
@@ -29,8 +33,10 @@ Output:
 ```html
 <iframe src="//player.vimeo.com/video/19339941" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
 <iframe src="//www.youtube.com/embed/twE64AuqE9A" frameborder="0" allowfullscreen></iframe>
+<iframe src="//www.dailymotion.com/embed/video/x20qnej" frameborder="0" allowfullscreen></iframe>
 <iframe src="//player.vimeo.com/video/6964150" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
 <iframe src="//www.youtube.com/embed/9XeNNqeHVDw" frameborder="0" allowfullscreen></iframe>
+<iframe src="//www.dailymotion.com/embed/video/x20qnej" frameborder="0" allowfullscreen></iframe>
 ```
 
 ## Usage
@@ -51,9 +57,13 @@ Return an HTML fragment embed code (string) for the given _vimeo_ video ID.
 
 Return an HTML fragment embed code (string) for the given _youtube_ video ID.
 
+### var embedCode = embed.dailymotion(id, [options])
+
+Return an HTML fragment embed code (string) for the given _dailymotion_ video ID.
+
 ### var embedCode = embed.image(url, [options], callback)
 
-Returns an HTML `<img>` tag (string) for the given url and the `src` in a callback. Works for **youtube** and **vimeo**.
+Returns an HTML `<img>` tag (string) for the given url and the `src` in a callback. Works for **youtube**, **vimeo** and **dailymotion**.
 
 ```js
 {
@@ -131,5 +141,28 @@ embedVideo.image('https://vimeo.com/19339941', {image: 'thumbnail_medium'}, func
   // http://i.vimeocdn.com/video/122513613_200x150.jpg
   console.log(thumbnail.html)
   // <img src="http://i.vimeocdn.com/video/122513613_200x150.jpg"/>
+})
+```
+
+#### DailyMotion Image options
+
+|option|image|
+|:---|:---|
+|thumbnail_60_url|![](http://s1.dmcdn.net/IgPVQ/x60-oZg.jpg)|
+|thumbnail_120_url|![](http://s1.dmcdn.net/IgPVQ/x120-llF.jpg)|
+|thumbnail_180_url|![](http://s1.dmcdn.net/IgPVQ/x180-DpY.jpg)|
+|thumbnail_240_url|![](http://s1.dmcdn.net/IgPVQ/x240-JCj.jpg)|
+|thumbnail_360_url|![](http://s1.dmcdn.net/IgPVQ/x360-s-z.jpg)|
+|thumbnail_480_url|![](http://s1.dmcdn.net/IgPVQ/x480-ktj.jpg)|
+|thumbnail_720_url|![](http://s1.dmcdn.net/IgPVQ/x720-d_h.jpg)|
+|thumbnail_1080_url|![](http://s1.dmcdn.net/IgPVQ/x1080-HsJ.jpg)|
+
+```js
+embedVideo.image('https://www.dailymotion.com/video/x20qnej_red-bull-presents-wild-ride-bmx-mtb-dirt_sport', {image: 'thumbnail_720_url'}, function (err, thumbnail) {
+  if (err) throw err
+  console.log(thumbnail.src)
+  // http://s1.dmcdn.net/IgPVQ/x720-d_h.jpg
+  console.log(thumbnail.html)
+  // <img src="http://s1.dmcdn.net/IgPVQ/x720-d_h.jpg"/> 
 })
 ```
