@@ -1,6 +1,10 @@
-var URL = require('url')
-var request = require('request')
+var URL = require('url');
+var request = require('request');
 var escape = require('lodash.escape');
+
+var YOUTUBE = 'youtube';
+var VIMEO = 'vimeo';
+var DAILYMOTION = 'dailymotion';
 
 var validVimeoOpts = [
   'thumbnail_small',
@@ -55,6 +59,39 @@ embed.image = function (url, opts, cb) {
   if (id) return embed.dailymotion.image(id, opts, cb)
 }
 
+embed.videoSource = function(url) {
+  var id
+
+  url = URL.parse(url, true)
+
+  id = detectYoutube(url)
+  if (id) {
+    return {
+      id: id,
+      source: YOUTUBE,
+      url: url.href
+    }
+  }
+
+  id = detectVimeo(url)
+  if (id) {
+    return {
+      id: id,
+      source: VIMEO,
+      url: url.href
+    }
+  }
+
+  id = detectDailymotion(url)
+  if (id) {
+    return {
+      id: id,
+      source: DAILYMOTION,
+      url: url.href
+    }
+  }
+}
+
 function detectVimeo (url) {
   return (url.hostname == "vimeo.com") ? url.pathname.split("/")[1] : null
 }
@@ -90,7 +127,7 @@ embed.vimeo = function (id, opts) {
     queryString = "?" + serializeQuery(opts.query)
   }
 
-  return '<iframe src="//player.vimeo.com/video/' 
+  return '<iframe src="//player.vimeo.com/video/'
           + id + opts.query + '"' + opts.attr
           + ' frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>'
 }
@@ -98,7 +135,7 @@ embed.vimeo = function (id, opts) {
 embed.youtube = function (id, opts) {
   opts = parseOptions(opts);
 
-  return '<iframe src="//www.youtube.com/embed/' 
+  return '<iframe src="//www.youtube.com/embed/'
           + id + opts.query + '"' + opts.attr
           + ' frameborder="0" allowfullscreen></iframe>'
 }
