@@ -141,3 +141,53 @@ test("get dailymotion thumbnail (dai.ly)", function(t) {
     t.equal(thumbnail.html, '<img src="http://s1.dmcdn.net/IgPVQ/x480-ktj.jpg"/>', 'and an html tag')
   })
 })
+
+test("get vimeo source", function (t) {
+  t.plan(3)
+  var url = "http://vimeo.com/19339941"
+  var code = embed.videoSource(url)
+
+  t.equal(code.id, '19339941')
+  t.equal(code.source, 'vimeo')
+  t.equal(code.url, url)
+})
+
+test("get youtube.com source", function (t) {
+  t.plan(3)
+  var url = "https://www.youtube.com/watch?v=twE64AuqE9A"
+  var code = embed.videoSource(url)
+
+  t.equal(code.id, 'twE64AuqE9A')
+  t.equal(code.source, 'youtube')
+  t.equal(code.url, url)
+})
+
+test("get youtu.be source", function (t) {
+  t.plan(3)
+  var url = "http://youtu.be/9XeNNqeHVDw#aid=P-Do3JLm4A0"
+  var code = embed.videoSource(url)
+
+  t.equal(code.id, '9XeNNqeHVDw')
+  t.equal(code.source, 'youtube')
+  t.equal(code.url, url)
+})
+
+test("get dailymotion.co, source", function (t) {
+  t.plan(3)
+  var url = "https://www.dailymotion.com/video/x20qnej_red-bull-presents-wild-ride-bmx-mtb-dirt_sport"
+  var code = embed.videoSource(url)
+
+  t.equal(code.id, 'x20qnej')
+  t.equal(code.source, 'dailymotion')
+  t.equal(code.url, url)
+})
+
+test("get dai.ly source", function (t) {
+  t.plan(3)
+  var url = "http://dai.ly/x20qnej"
+  var code = embed.videoSource(url)
+
+  t.equal(code.id, 'x20qnej')
+  t.equal(code.source, 'dailymotion')
+  t.equal(code.url, url)
+})
