@@ -72,6 +72,18 @@ Returns an HTML `<img>` tag (string) for the given url and the `src` in a callba
 }
 ```
 
+### var embedCode = embed.videoSource(url)
+
+Returns an HTML `object` containing the video ID, video source (`"youtube"`, `"vimeo"`, `"dailymotion"`), and the original url. Works for **youtube**, **vimeo** and **dailymotion**.
+
+```js
+{
+  id: String,
+  url: String,
+  source: Enum "youtube", "vimeo", "dailymotion"
+}
+```
+
 ## Options
 
 ### query
@@ -163,6 +175,6 @@ embedVideo.image('https://www.dailymotion.com/video/x20qnej_red-bull-presents-wi
   console.log(thumbnail.src)
   // http://s1.dmcdn.net/IgPVQ/x720-d_h.jpg
   console.log(thumbnail.html)
-  // <img src="http://s1.dmcdn.net/IgPVQ/x720-d_h.jpg"/> 
+  // <img src="http://s1.dmcdn.net/IgPVQ/x720-d_h.jpg"/>
 })
 ```
