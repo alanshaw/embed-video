@@ -42,7 +42,7 @@
     ]
   },
   "dependencies": {
-    "lodash.escape": "^4.0.1",
-    "request": "^2.75.0"
+    "axios": "^0.16.1",
+    "lodash.escape": "^4.0.1"
   }
 }

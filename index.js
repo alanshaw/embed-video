@@ -1,5 +1,5 @@
 var URL = require('url');
-var request = require('request');
+var axios = require('axios');
 var escape = require('lodash.escape');
 
 var YOUTUBE = 'youtube';
@@ -185,23 +185,23 @@ embed.vimeo.image = function (id, opts, cb) {
 
   opts.image = validVimeoOpts.indexOf(opts.image) >= 0 ? opts.image : 'thumbnail_large'
 
-  request.get({
-    url: 'http://vimeo.com/api/v2/video/' + id + '.json',
-    json: true
-  }, function (err, res, body) {
-    if (err) return cb(err)
-    if (res.statusCode !== 200) return cb(new Error('unexpected response from vimeo'))
-    if (!body || !body[0] || !body[0][opts.image]) return cb(new Error('no image found for vimeo.com/' + id))
+  axios.get('http://vimeo.com/api/v2/video/' + id + '.json')
+    .then(function (res) {
+      var body = res.data;
+      if (res.status !== 200) return cb(new Error('unexpected response from vimeo'))
+      if (!body || !body[0] || !body[0][opts.image]) return cb(new Error('no image found for vimeo.com/' + id))
+      var src = body[0][opts.image].split(':')[1]
 
-    var src = body[0][opts.image].split(':')[1]
+      var result = {
+        src: src,
+        html: '<img src="' + src + '"/>'
+      }
 
-    var result = {
-      src: src,
-      html: '<img src="' + src + '"/>'
-    }
-
-    cb(null, result)
-  })
+      cb(null, result)
+    })
+    .catch(function(err) {
+      return cb(err)
+    })
 }
 
 embed.dailymotion.image = function(id, opts, cb) {
@@ -216,22 +216,23 @@ embed.dailymotion.image = function(id, opts, cb) {
 
   opts.image = validDailyMotionOpts.indexOf(opts.image) >= 0 ? opts.image : 'thumbnail_480_url'
 
-  request.get({
-    url: 'https://api.dailymotion.com/video/' + id + '?fields=' + opts.image,
-    json: true
-  }, function(err, res, body) {
-    if (err) return cb(err)
-    if (res.statusCode !== 200) return cb(new Error('unexpected response from dailymotion'))
-    if (!body || !body[opts.image]) return cb(new Error('no image found for dailymotion.com/' + id))
-    var src = body[opts.image]
+  axios.get('https://api.dailymotion.com/video/' + id + '?fields=' + opts.image)
+    .then(function (res) {
+      var body = res.data;
+      if (res.status !== 200) return cb(new Error('unexpected response from dailymotion'))
+      if (!body || !body[opts.image]) return cb(new Error('no image found for dailymotion.com/' + id))
+      var src = body[opts.image]
 
-    var result = {
+      var result = {
         src: src,
         html: '<img src="' + src + '"/>'
-    }
+      }
 
-    cb(null, result)
-  })
+      cb(null, result)
+    })
+    .catch(function(err) {
+      return cb(err)
+    })
 }
 
 function serializeQuery (query) {
