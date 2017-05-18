@@ -1,5 +1,6 @@
 var URL = require('url');
-var axios = require('axios');
+var promise = require('promise-polyfill');
+var { fetch } = require('fetch-ponyfill')({ Promise: promise });
 var escape = require('lodash.escape');
 
 var YOUTUBE = 'youtube';
@@ -185,10 +186,14 @@ embed.vimeo.image = function (id, opts, cb) {
 
   opts.image = validVimeoOpts.indexOf(opts.image) >= 0 ? opts.image : 'thumbnail_large'
 
-  axios.get('http://vimeo.com/api/v2/video/' + id + '.json')
+  fetch('http://vimeo.com/api/v2/video/' + id + '.json')
     .then(function (res) {
-      var body = res.data;
       if (res.status !== 200) return cb(new Error('unexpected response from vimeo'))
+
+      return res.json();
+    })
+    .then(function (res) {
+      var body = res;
       if (!body || !body[0] || !body[0][opts.image]) return cb(new Error('no image found for vimeo.com/' + id))
       var src = body[0][opts.image].split(':')[1]
 
@@ -216,10 +221,14 @@ embed.dailymotion.image = function(id, opts, cb) {
 
   opts.image = validDailyMotionOpts.indexOf(opts.image) >= 0 ? opts.image : 'thumbnail_480_url'
 
-  axios.get('https://api.dailymotion.com/video/' + id + '?fields=' + opts.image)
+  fetch('https://api.dailymotion.com/video/' + id + '?fields=' + opts.image)
     .then(function (res) {
-      var body = res.data;
       if (res.status !== 200) return cb(new Error('unexpected response from dailymotion'))
+
+      return res.json();
+    })
+    .then(function(res) {
+      var body = res;
       if (!body || !body[opts.image]) return cb(new Error('no image found for dailymotion.com/' + id))
       var src = body[opts.image]
 
