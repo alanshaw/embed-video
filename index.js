@@ -1,6 +1,6 @@
 var URL = require('url');
 var promise = require('promise-polyfill');
-var { fetch } = require('fetch-ponyfill')({ Promise: promise });
+var fetch = require('fetch-ponyfill')({ Promise: promise }).fetch;
 var escape = require('lodash.escape');
 
 var YOUTUBE = 'youtube';
@@ -188,13 +188,17 @@ embed.vimeo.image = function (id, opts, cb) {
 
   fetch('http://vimeo.com/api/v2/video/' + id + '.json')
     .then(function (res) {
-      if (res.status !== 200) return cb(new Error('unexpected response from vimeo'))
+      if (res.status !== 200) {
+        throw new Error('unexpected response from vimeo');
+      }
 
       return res.json();
     })
-    .then(function (res) {
-      var body = res;
-      if (!body || !body[0] || !body[0][opts.image]) return cb(new Error('no image found for vimeo.com/' + id))
+    .then(function (body) {
+      if (!body || !body[0] || !body[0][opts.image]) {
+        throw new Error('no image found for vimeo.com/' + id);
+      }
+
       var src = body[0][opts.image].split(':')[1]
 
       var result = {
@@ -205,7 +209,7 @@ embed.vimeo.image = function (id, opts, cb) {
       cb(null, result)
     })
     .catch(function(err) {
-      return cb(err)
+      cb(err)
     })
 }
 
@@ -223,13 +227,17 @@ embed.dailymotion.image = function(id, opts, cb) {
 
   fetch('https://api.dailymotion.com/video/' + id + '?fields=' + opts.image)
     .then(function (res) {
-      if (res.status !== 200) return cb(new Error('unexpected response from dailymotion'))
+      if (res.status !== 200) {
+        throw new Error('unexpected response from dailymotion');
+      }
 
       return res.json();
     })
-    .then(function(res) {
-      var body = res;
-      if (!body || !body[opts.image]) return cb(new Error('no image found for dailymotion.com/' + id))
+    .then(function(body) {
+      if (!body || !body[opts.image]) {
+        throw new Error('no image found for dailymotion.com/' + id);
+      }
+
       var src = body[opts.image]
 
       var result = {
@@ -240,7 +248,7 @@ embed.dailymotion.image = function(id, opts, cb) {
       cb(null, result)
     })
     .catch(function(err) {
-      return cb(err)
+      cb(err)
     })
 }
 
