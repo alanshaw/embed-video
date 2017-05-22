@@ -1,6 +1,6 @@
 {
   "name": "embed-video",
-  "version": "1.6.0",
+  "version": "2.0.0",
   "description": "Get embed code for embedding youtube/vimeo/whatever video in websites from URL or ID",
   "main": "index.js",
   "scripts": {
