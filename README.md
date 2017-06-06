@@ -74,7 +74,7 @@ Returns an HTML `<img>` tag (string) for the given url and the `src` in a callba
 
 ### var embedCode = embed.videoSource(url)
 
-Returns an HTML `object` containing the video ID, video source (`"youtube"`, `"vimeo"`, `"dailymotion"`), and the original url. Works for **youtube**, **vimeo** and **dailymotion**.
+Returns an `object` containing the video ID, video source (`"youtube"`, `"vimeo"`, `"dailymotion"`), and the original url. Works for **youtube**, **vimeo** and **dailymotion**.
 
 ```js
 {
