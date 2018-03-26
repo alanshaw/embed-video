@@ -30,7 +30,7 @@ var validDailyMotionOpts = [
   'thumbnail_1080_url'
 ];
 
-var VIMEO_MATCH_RE = /^(?:\/video|\/channels\/[\w-]+|\/groups\/[\w-]+\/videos)?\/(\d+)$/;
+var VIMEO_MATCH_RE = /^(?:\/video|\/channels\/[\w-]+|\/groups\/[\w-]+\/videos)?\/(\d+)/;
 
 function embed (url, opts) {
   var id
