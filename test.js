@@ -152,6 +152,26 @@ test("get vimeo source", function (t) {
   t.equal(code.url, url)
 })
 
+test("get vimeo source from channel", function(t) {
+  t.plan(3)
+  var url = "https://vimeo.com/channels/staffpicks/185045662"
+  var code = embed.videoSource(url);
+  
+  t.equal(code.id, "185045662")
+  t.equal(code.source, "vimeo")
+  t.equal(code.url, url)
+});
+
+test("get vimeo source from group", function(t) {
+  t.plan(3)
+  var url = "https://vimeo.com/groups/1minute/videos/261712339"
+  var code = embed.videoSource(url);
+  
+  t.equal(code.id, "261712339")
+  t.equal(code.source, "vimeo")
+  t.equal(code.url, url)
+});
+
 test("get youtube.com source", function (t) {
   t.plan(3)
   var url = "https://www.youtube.com/watch?v=twE64AuqE9A"
