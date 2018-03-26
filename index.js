@@ -30,6 +30,8 @@ var validDailyMotionOpts = [
   'thumbnail_1080_url'
 ];
 
+var VIMEO_MATCH_RE = /^(?:\/video|\/channels\/[\w-]+|\/groups\/[\w-]+\/videos)?\/(\d+)$/;
+
 function embed (url, opts) {
   var id
 
@@ -94,7 +96,8 @@ embed.videoSource = function(url) {
 }
 
 function detectVimeo (url) {
-  return (url.hostname == "vimeo.com") ? url.pathname.split("/")[1] : null
+  var match;
+  return (url.hostname === "vimeo.com" && (match = VIMEO_MATCH_RE.exec(url.pathname))) ?  match[1] : null;
 }
 
 function detectYoutube (url) {
