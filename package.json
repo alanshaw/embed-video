@@ -26,6 +26,7 @@
   },
   "homepage": "https://github.com/alanshaw/embed-video",
   "devDependencies": {
+    "standard": "^11.0.1",
     "tape": "^4.0.0"
   },
   "testling": {

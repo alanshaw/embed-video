@@ -1,6 +1,8 @@
-# embed-video [![Build Status](http://img.shields.io/travis/alanshaw/embed-video.svg)](https://travis-ci.org/alanshaw/embed-video) [![devDependency Status](https://david-dm.org/alanshaw/embed-video/dev-status.svg)](https://david-dm.org/alanshaw/embed-video#info=devDependencies)
+# embed-video
 
-Get embed code for embedding youtube/vimeo/dailymotion/whatever video in websites from URL or ID.
+[![Build Status](http://img.shields.io/travis/alanshaw/embed-video.svg)](https://travis-ci.org/alanshaw/embed-video) [![devDependency Status](https://david-dm.org/alanshaw/embed-video/dev-status.svg)](https://david-dm.org/alanshaw/embed-video#info=devDependencies) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
+
+> Get embed code for embedding youtube/vimeo/dailymotion/whatever video in websites from URL or ID.
 
 Currently supports YouTube, Vimeo and DailyMotion. Please pull request to add others!
 
@@ -178,3 +180,11 @@ embedVideo.image('https://www.dailymotion.com/video/x20qnej_red-bull-presents-wi
   // <img src="http://s1.dmcdn.net/IgPVQ/x720-d_h.jpg"/>
 })
 ```
+
+## Contribute
+
+Feel free to dive in! [Open an issue](https://github.com/alanshaw/embed-video/issues/new) or submit PRs.
+
+## License
+
+[MIT](LICENSE) © Alan Shaw
