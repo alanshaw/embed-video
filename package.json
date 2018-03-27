@@ -29,19 +29,6 @@
     "standard": "^11.0.1",
     "tape": "^4.0.0"
   },
-  "testling": {
-    "files": "test.js",
-    "browsers": [
-      "ie/8..latest",
-      "chrome/latest",
-      "firefox/latest",
-      "safari/latest",
-      "opera/latest",
-      "iphone/6",
-      "ipad/6",
-      "android-browser/latest"
-    ]
-  },
   "dependencies": {
     "fetch-ponyfill": "^4.0.0",
     "lodash.escape": "^4.0.1",

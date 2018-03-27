@@ -6,8 +6,6 @@
 
 Currently supports YouTube, Vimeo and DailyMotion. Please pull request to add others!
 
-[![browser support](https://ci.testling.com/alanshaw/embed-video.png)](https://ci.testling.com/alanshaw/embed-video)
-
 ## Example
 
 ```js
@@ -76,7 +74,7 @@ Returns an `object` containing the video ID, video source (`"youtube"`, `"vimeo"
 
 ## Options
 
-### query
+### `query`
 
 Object to be serialized as a querystring and appended to the embedded content url.
 
@@ -92,7 +90,7 @@ Output:
 ```html
 <iframe src="//player.vimeo.com/video/19339941?portrait=0&color=333" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
 ```
-### attributes
+### `attr`
 
 Object to add additional attributes (any) to the iframe
 
@@ -106,6 +104,8 @@ Output:
 ```html
 <iframe src="//www.youtube.com/embed/jglUWD3KMh4?portrait=0&color=333" frameborder="0" allowfullscreen width="400" height="200"></iframe>
 ```
+
+### `image`
 
 #### Youtube Image options
 
