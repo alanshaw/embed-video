@@ -47,23 +47,11 @@ Output:
 var embed = require("embed-video")
 ```
 
-### var embedCode = embed(url, [options])
+### embed(url, [options])
 
 Return an HTML fragment embed code (string) for the given video URL.
 
-### var embedCode = embed.vimeo(id, [options])
-
-Return an HTML fragment embed code (string) for the given _vimeo_ video ID.
-
-### var embedCode = embed.youtube(id, [options])
-
-Return an HTML fragment embed code (string) for the given _youtube_ video ID.
-
-### var embedCode = embed.dailymotion(id, [options])
-
-Return an HTML fragment embed code (string) for the given _dailymotion_ video ID.
-
-### var embedCode = embed.image(url, [options], callback)
+### embed.image(url, [options], callback)
 
 Returns an HTML `<img>` tag (string) for the given url and the `src` in a callback. Works for **youtube**, **vimeo** and **dailymotion**.
 
@@ -74,7 +62,7 @@ Returns an HTML `<img>` tag (string) for the given url and the `src` in a callba
 }
 ```
 
-### var embedCode = embed.videoSource(url)
+### embed.videoSource(url)
 
 Returns an `object` containing the video ID, video source (`"youtube"`, `"vimeo"`, `"dailymotion"`), and the original url. Works for **youtube**, **vimeo** and **dailymotion**.
 
@@ -118,7 +106,6 @@ Output:
 ```html
 <iframe src="//www.youtube.com/embed/jglUWD3KMh4?portrait=0&color=333" frameborder="0" allowfullscreen width="400" height="200"></iframe>
 ```
-
 
 #### Youtube Image options
 
