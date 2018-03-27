@@ -47,11 +47,11 @@ var embed = require("embed-video")
 
 ### embed(url, [options])
 
-Return an HTML fragment embed code (string) for the given video URL.
+Return an HTML fragment embed code (string) for the given video URL. Returns `undefined` if unrecognised.
 
 ### embed.image(url, [options], callback)
 
-Returns an HTML `<img>` tag (string) for the given url and the `src` in a callback. Works for **youtube**, **vimeo** and **dailymotion**.
+Returns an HTML `<img>` tag (string) for the given url and the `src` in a callback. Works for **youtube**, **vimeo** and **dailymotion**. Returns `undefined` if unrecognised.
 
 ```js
 {
@@ -60,9 +60,9 @@ Returns an HTML `<img>` tag (string) for the given url and the `src` in a callba
 }
 ```
 
-### embed.videoSource(url)
+### embed.info(url)
 
-Returns an `object` containing the video ID, video source (`"youtube"`, `"vimeo"`, `"dailymotion"`), and the original url. Works for **youtube**, **vimeo** and **dailymotion**.
+Returns an `object` containing the video ID, video source (`"youtube"`, `"vimeo"`, `"dailymotion"`), and the original url. Works for **youtube**, **vimeo** and **dailymotion**. Returns `undefined` if unrecognised.
 
 ```js
 {

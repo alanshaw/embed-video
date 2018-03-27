@@ -33,39 +33,14 @@ var validDailyMotionOpts = [
 var VIMEO_MATCH_RE = /^(?:\/video|\/channels\/[\w-]+|\/groups\/[\w-]+\/videos)?\/(\d+)/
 
 function embed (url, opts) {
-  url = URL.parse(url, true)
-
-  var id
-
-  id = detectYoutube(url)
-  if (id) return embed.youtube(id, opts)
-
-  id = detectVimeo(url)
-  if (id) return embed.vimeo(id, opts)
-
-  id = detectDailymotion(url)
-  if (id) return embed.dailymotion(id, opts)
+  var res = embed.info(url)
+  return res && embed[res.source] && embed[res.source](res.id, opts)
 }
 
-embed.image = function (url, opts, cb) {
-  var id
-
+embed.info = function (url) {
   url = URL.parse(url, true)
 
-  id = detectYoutube(url)
-  if (id) return embed.youtube.image(id, opts, cb)
-
-  id = detectVimeo(url)
-  if (id) return embed.vimeo.image(id, opts, cb)
-
-  id = detectDailymotion(url)
-  if (id) return embed.dailymotion.image(id, opts, cb)
-}
-
-embed.videoSource = function (url) {
   var id
-
-  url = URL.parse(url, true)
 
   id = detectYoutube(url)
   if (id) {
@@ -93,6 +68,21 @@ embed.videoSource = function (url) {
       url: url.href
     }
   }
+}
+
+// For compat with <=2.0.1
+embed.videoSource = embed.info
+
+embed.image = function (url, opts, cb) {
+  if (typeof opts === 'function') {
+    cb = opts
+    opts = {}
+  }
+  opts = opts || {}
+
+  var res = embed.info(url)
+  if (!res && cb) return setTimeout(function () { cb() })
+  return res && embed[res.source].image(res.id, opts, cb)
 }
 
 function detectVimeo (url) {
@@ -157,7 +147,7 @@ embed.youtube.image = function (id, opts, cb) {
 
   if (!cb) return result.html
 
-  setTimeout(function () { cb(null, result) }, 1)
+  setTimeout(function () { cb(null, result) })
 }
 
 embed.vimeo.image = function (id, opts, cb) {

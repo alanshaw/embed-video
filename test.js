@@ -142,6 +142,22 @@ test('get dailymotion thumbnail (dai.ly)', function (t) {
   })
 })
 
+test('returns undefined for unrecognised embed URL', function (t) {
+  t.plan(1)
+  var res = embed.image('https://myvideoservice.com')
+  t.equal(res, undefined, 'correct value')
+  t.end()
+})
+
+test('returns undefined for unrecognised embed URL with callback', function (t) {
+  t.plan(2)
+  embed.image('https://myvideoservice.com', function (err, res) {
+    t.ifError(err, 'no errors')
+    t.equal(res, undefined, 'correct value')
+    t.end()
+  })
+})
+
 test('get vimeo source', function (t) {
   t.plan(3)
   var url = 'http://vimeo.com/19339941'
