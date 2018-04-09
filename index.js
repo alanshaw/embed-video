@@ -162,7 +162,7 @@ embed.vimeo.image = function (id, opts, cb) {
 
   opts.image = validVimeoOpts.indexOf(opts.image) >= 0 ? opts.image : 'thumbnail_large'
 
-  fetch('http://vimeo.com/api/v2/video/' + id + '.json')
+  fetch('https://vimeo.com/api/v2/video/' + id + '.json')
     .then(function (res) {
       if (res.status !== 200) {
         throw new Error('unexpected response from vimeo')
