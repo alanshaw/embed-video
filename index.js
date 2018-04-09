@@ -7,6 +7,8 @@ var YOUTUBE = 'youtube'
 var VIMEO = 'vimeo'
 var DAILYMOTION = 'dailymotion'
 
+var queryString;
+
 var validVimeoOpts = [
   'thumbnail_small',
   'thumbnail_medium',
