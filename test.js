@@ -138,8 +138,8 @@ test('get dailymotion thumbnail', function (t) {
   t.plan(3)
   embed.image('https://www.dailymotion.com/video/x20qnej_red-bull-presents-wild-ride-bmx-mtb-dirt_sport', function (err, thumbnail) {
     t.ifError(err, 'no errors')
-    t.equal(thumbnail.src, 'https://s1.dmcdn.net/v/7I43x1V6-uVoyUTCi/x480', 'embed.image returns an object with a src')
-    t.equal(thumbnail.html, '<img src="https://s1.dmcdn.net/v/7I43x1V6-uVoyUTCi/x480"/>', 'and an html tag')
+    t.match(thumbnail.src, /https:\/\/s[12]\.dmcdn\.net\/v\/7I43x1V6-uVoyUTCi\/x480/, 'embed.image returns an object with a src')
+    t.match(thumbnail.html, /<img src="https:\/\/s[12]\.dmcdn\.net\/v\/7I43x1V6-uVoyUTCi\/x480"\/>/, 'and an html tag')
   })
 })
 
@@ -147,7 +147,7 @@ test('get dailymotion thumbnail with options', function (t) {
   t.plan(2)
   embed.image('https://www.dailymotion.com/video/x20qnej_red-bull-presents-wild-ride-bmx-mtb-dirt_sport', { image: 'thumbnail_720_url' }, function (err, thumbnail) {
     t.ifError(err, 'no errors')
-    t.equal(thumbnail.html, '<img src="https://s1.dmcdn.net/v/7I43x1V6-uV3FJTF9/x720"/>', 'correctly applys options thumbnail')
+    t.match(thumbnail.html, /<img src="https:\/\/s[12]\.dmcdn\.net\/v\/7I43x1V6-uV3FJTF9\/x720"\/>/, 'correctly applys options thumbnail')
   })
 })
 
@@ -155,8 +155,8 @@ test('get dailymotion thumbnail (dai.ly)', function (t) {
   t.plan(3)
   embed.image('http://dai.ly/x20qnej', function (err, thumbnail) {
     t.ifError(err, 'no errors')
-    t.equal(thumbnail.src, 'https://s1.dmcdn.net/v/7I43x1V6-uVoyUTCi/x480', 'embed.image returns an object with a src')
-    t.equal(thumbnail.html, '<img src="https://s1.dmcdn.net/v/7I43x1V6-uVoyUTCi/x480"/>', 'and an html tag')
+    t.match(thumbnail.src, /https:\/\/s[12]\.dmcdn\.net\/v\/7I43x1V6-uVoyUTCi\/x480/, 'embed.image returns an object with a src')
+    t.match(thumbnail.html, /<img src="https:\/\/s[12]\.dmcdn\.net\/v\/7I43x1V6-uVoyUTCi\/x480"\/>/, 'and an html tag')
   })
 })
 
