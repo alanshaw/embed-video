@@ -19,6 +19,12 @@ test('convert youtu.be url', function (t) {
   t.equal(code, '<iframe src="//www.youtube.com/embed/9XeNNqeHVDw" frameborder="0" allowfullscreen></iframe>')
 })
 
+test('convert invidio.us url', function (t) {
+  t.plan(1)
+  var code = embed('https://invidio.us/watch?v=1ACXn-BDog8')
+  t.equal(code, '<iframe src="//invidio.us/embed/1ACXn-BDog8" frameborder="0" allowfullscreen></iframe>')
+})
+
 test('convert dailymotion.com url', function (t) {
   t.plan(1)
   var code = embed('https://www.dailymotion.com/video/x20qnej_red-bull-presents-wild-ride-bmx-mtb-dirt_sport')
@@ -41,6 +47,12 @@ test('convert youtube id', function (t) {
   t.plan(1)
   var code = embed.youtube('9XeNNqeHVDw')
   t.equal(code, '<iframe src="//www.youtube.com/embed/9XeNNqeHVDw" frameborder="0" allowfullscreen></iframe>')
+})
+
+test('convert invidious id', function (t) {
+  t.plan(1)
+  var code = embed.invidious('1ACXn-BDog8')
+  t.equal(code, '<iframe src="//invidio.us/embed/1ACXn-BDog8" frameborder="0" allowfullscreen></iframe>')
 })
 
 test('convert dailymotion id', function (t) {
@@ -87,26 +99,26 @@ test('accept attributes dailymotion', function (t) {
 
 test('get vimeo thumbnail', function (t) {
   t.plan(3)
-  embed.image('https://vimeo.com/19339941', function (err, thumbnail) {
+  embed.image('https://vimeo.com/131643017', function (err, thumbnail) {
     t.ifError(err, 'no errors')
-    t.equal(thumbnail.src, '//i.vimeocdn.com/video/122513613_640.jpg', 'embed.image returns an object with a src')
-    t.equal(thumbnail.html, '<img src="//i.vimeocdn.com/video/122513613_640.jpg"/>', 'and an html tag')
+    t.equal(thumbnail.src, '//i.vimeocdn.com/video/523975807_640.jpg', 'embed.image returns an object with a src')
+    t.equal(thumbnail.html, '<img src="//i.vimeocdn.com/video/523975807_640.jpg"/>', 'and an html tag')
   })
 })
 
 test('get vimeo thumbnail with options', function (t) {
   t.plan(2)
-  embed.image('https://vimeo.com/19339941', {image: 'thumbnail_small'}, function (err, thumbnail) {
+  embed.image('https://vimeo.com/131643017', {image: 'thumbnail_small'}, function (err, thumbnail) {
     t.ifError(err, 'no errors')
-    t.equal(thumbnail.html, '<img src="//i.vimeocdn.com/video/122513613_100x75.jpg"/>', 'correctly applys options thumbnail')
+    t.equal(thumbnail.html, '<img src="//i.vimeocdn.com/video/523975807_100x75.jpg"/>', 'correctly applys options thumbnail')
   })
 })
 
 test('get default vimeo thumbnail with invalid options', function (t) {
   t.plan(2)
-  embed.image('https://vimeo.com/19339941', {image: 'what-rubbish'}, function (err, thumbnail) {
+  embed.image('https://vimeo.com/131643017', {image: 'what-rubbish'}, function (err, thumbnail) {
     t.ifError(err, 'no errors')
-    t.equal(thumbnail.html, '<img src="//i.vimeocdn.com/video/122513613_640.jpg"/>', 'correctly applys options thumbnail')
+    t.equal(thumbnail.html, '<img src="//i.vimeocdn.com/video/523975807_640.jpg"/>', 'correctly applys options thumbnail')
   })
 })
 
@@ -116,12 +128,18 @@ test('get youtube thumbnail (prove backwards compatibility)', function (t) {
   t.equal(embedImage, '<img src="//img.youtube.com/vi/ZeLnjXTNq6Q/maxresdefault.jpg"/>', 'retains synchronous behaviour and returns html image tag')
 })
 
+test('get invidious thumbnail (prove backwards compatibility)', function (t) {
+  t.plan(1)
+  var embedImage = embed.image('https://invidio.us/watch?v=1ACXn-BDog8', {image: 'maxresdefault'})
+  t.equal(embedImage, '<img src="//invidio.us/vi/1ACXn-BDog8/maxresdefault.jpg"/>', 'retains synchronous behaviour and returns html image tag')
+})
+
 test('get dailymotion thumbnail', function (t) {
   t.plan(3)
   embed.image('https://www.dailymotion.com/video/x20qnej_red-bull-presents-wild-ride-bmx-mtb-dirt_sport', function (err, thumbnail) {
     t.ifError(err, 'no errors')
-    t.equal(thumbnail.src, 'http://s1.dmcdn.net/IgPVQ/x480-ktj.jpg', 'embed.image returns an object with a src')
-    t.equal(thumbnail.html, '<img src="http://s1.dmcdn.net/IgPVQ/x480-ktj.jpg"/>', 'and an html tag')
+    t.match(thumbnail.src, /https:\/\/s[12]\.dmcdn\.net\/v\/7I43x1V6-uVoyUTCi\/x480/, 'embed.image returns an object with a src')
+    t.match(thumbnail.html, /<img src="https:\/\/s[12]\.dmcdn\.net\/v\/7I43x1V6-uVoyUTCi\/x480"\/>/, 'and an html tag')
   })
 })
 
@@ -129,7 +147,7 @@ test('get dailymotion thumbnail with options', function (t) {
   t.plan(2)
   embed.image('https://www.dailymotion.com/video/x20qnej_red-bull-presents-wild-ride-bmx-mtb-dirt_sport', { image: 'thumbnail_720_url' }, function (err, thumbnail) {
     t.ifError(err, 'no errors')
-    t.equal(thumbnail.html, '<img src="http://s1.dmcdn.net/IgPVQ/x720-d_h.jpg"/>', 'correctly applys options thumbnail')
+    t.match(thumbnail.html, /<img src="https:\/\/s[12]\.dmcdn\.net\/v\/7I43x1V6-uV3FJTF9\/x720"\/>/, 'correctly applys options thumbnail')
   })
 })
 
@@ -137,8 +155,8 @@ test('get dailymotion thumbnail (dai.ly)', function (t) {
   t.plan(3)
   embed.image('http://dai.ly/x20qnej', function (err, thumbnail) {
     t.ifError(err, 'no errors')
-    t.equal(thumbnail.src, 'http://s1.dmcdn.net/IgPVQ/x480-ktj.jpg', 'embed.image returns an object with a src')
-    t.equal(thumbnail.html, '<img src="http://s1.dmcdn.net/IgPVQ/x480-ktj.jpg"/>', 'and an html tag')
+    t.match(thumbnail.src, /https:\/\/s[12]\.dmcdn\.net\/v\/7I43x1V6-uVoyUTCi\/x480/, 'embed.image returns an object with a src')
+    t.match(thumbnail.html, /<img src="https:\/\/s[12]\.dmcdn\.net\/v\/7I43x1V6-uVoyUTCi\/x480"\/>/, 'and an html tag')
   })
 })
 
@@ -215,6 +233,16 @@ test('get youtu.be source', function (t) {
 
   t.equal(code.id, '9XeNNqeHVDw')
   t.equal(code.source, 'youtube')
+  t.equal(code.url, url)
+})
+
+test('get invidio.us source', function (t) {
+  t.plan(3)
+  var url = 'https://invidio.us/watch?v=1ACXn-BDog8'
+  var code = embed.videoSource(url)
+
+  t.equal(code.id, '1ACXn-BDog8')
+  t.equal(code.source, 'invidious')
   t.equal(code.url, url)
 })
 
