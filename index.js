@@ -4,6 +4,7 @@ var fetch = require('fetch-ponyfill')({ Promise: promise }).fetch
 var escape = require('lodash.escape')
 
 var YOUTUBE = 'youtube'
+var INVIDIOUS = 'invidious'
 var VIMEO = 'vimeo'
 var DAILYMOTION = 'dailymotion'
 
@@ -47,6 +48,15 @@ embed.info = function (url) {
     return {
       id: id,
       source: YOUTUBE,
+      url: url.href
+    }
+  }
+
+  id = detectInvidious(url)
+  if (id) {
+    return {
+      id: id,
+      source: INVIDIOUS,
       url: url.href
     }
   }
@@ -102,6 +112,14 @@ function detectYoutube (url) {
   return null
 }
 
+function detectInvidious(url) {
+  if (url.hostname.indexOf('invidio.us') > -1) {
+    return url.query.v
+  }
+
+  return null
+}
+
 function detectDailymotion (url) {
   if (url.hostname.indexOf('dailymotion.com') > -1) {
     return url.pathname.split('/')[2].split('_')[0]
@@ -124,6 +142,11 @@ embed.youtube = function (id, opts) {
   return '<iframe src="//www.youtube.com/embed/' + id + opts.query + '"' + opts.attr + ' frameborder="0" allowfullscreen></iframe>'
 }
 
+embed.invidious = function (id, opts) {
+  opts = parseOptions(opts)
+  return '<iframe src="//invidio.us/embed/' + id + opts.query + '"' + opts.attr + ' frameborder="0" allowfullscreen></iframe>'
+}
+
 embed.dailymotion = function (id, opts) {
   opts = parseOptions(opts)
   return '<iframe src="//www.dailymotion.com/embed/video/' + id + opts.query + '"' + opts.attr + ' frameborder="0" allowfullscreen></iframe>'
@@ -139,6 +162,27 @@ embed.youtube.image = function (id, opts, cb) {
   opts.image = validYouTubeOpts.indexOf(opts.image) > 0 ? opts.image : 'default'
 
   var src = '//img.youtube.com/vi/' + id + '/' + opts.image + '.jpg'
+
+  var result = {
+    src: src,
+    html: '<img src="' + src + '"/>'
+  }
+
+  if (!cb) return result.html
+
+  setTimeout(function () { cb(null, result) })
+}
+
+embed.invidious.image = function (id, opts, cb) {
+  if (typeof opts === 'function') {
+    cb = opts
+    opts = {}
+  }
+  opts = opts || {}
+
+  opts.image = validYouTubeOpts.indexOf(opts.image) > 0 ? opts.image : 'default'
+
+  var src = '//invidio.us/vi/' + id + '/' + opts.image + '.jpg'
 
   var result = {
     src: src,

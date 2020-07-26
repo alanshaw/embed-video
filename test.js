@@ -19,6 +19,12 @@ test('convert youtu.be url', function (t) {
   t.equal(code, '<iframe src="//www.youtube.com/embed/9XeNNqeHVDw" frameborder="0" allowfullscreen></iframe>')
 })
 
+test('convert invidio.us url', function (t) {
+  t.plan(1)
+  var code = embed('https://invidio.us/watch?v=1ACXn-BDog8')
+  t.equal(code, '<iframe src="//invidio.us/embed/1ACXn-BDog8" frameborder="0" allowfullscreen></iframe>')
+})
+
 test('convert dailymotion.com url', function (t) {
   t.plan(1)
   var code = embed('https://www.dailymotion.com/video/x20qnej_red-bull-presents-wild-ride-bmx-mtb-dirt_sport')
@@ -41,6 +47,12 @@ test('convert youtube id', function (t) {
   t.plan(1)
   var code = embed.youtube('9XeNNqeHVDw')
   t.equal(code, '<iframe src="//www.youtube.com/embed/9XeNNqeHVDw" frameborder="0" allowfullscreen></iframe>')
+})
+
+test('convert invidious id', function (t) {
+  t.plan(1)
+  var code = embed.invidious('1ACXn-BDog8')
+  t.equal(code, '<iframe src="//invidio.us/embed/1ACXn-BDog8" frameborder="0" allowfullscreen></iframe>')
 })
 
 test('convert dailymotion id', function (t) {
@@ -114,6 +126,12 @@ test('get youtube thumbnail (prove backwards compatibility)', function (t) {
   t.plan(1)
   var embedImage = embed.image('https://youtu.be/ZeLnjXTNq6Q', {image: 'maxresdefault'})
   t.equal(embedImage, '<img src="//img.youtube.com/vi/ZeLnjXTNq6Q/maxresdefault.jpg"/>', 'retains synchronous behaviour and returns html image tag')
+})
+
+test('get invidious thumbnail (prove backwards compatibility)', function (t) {
+  t.plan(1)
+  var embedImage = embed.image('https://invidio.us/watch?v=1ACXn-BDog8', {image: 'maxresdefault'})
+  t.equal(embedImage, '<img src="//invidio.us/vi/ZeLnjXTNq6Q/maxresdefault.jpg"/>', 'retains synchronous behaviour and returns html image tag')
 })
 
 test('get dailymotion thumbnail', function (t) {
@@ -215,6 +233,16 @@ test('get youtu.be source', function (t) {
 
   t.equal(code.id, '9XeNNqeHVDw')
   t.equal(code.source, 'youtube')
+  t.equal(code.url, url)
+})
+
+test('get invidio.us source', function (t) {
+  t.plan(3)
+  var url = 'https://invidio.us/watch?v=1ACXn-BDog8'
+  var code = embed.videoSource(url)
+
+  t.equal(code.id, '1ACXn-BDog8')
+  t.equal(code.source, 'invidious')
   t.equal(code.url, url)
 })
 
