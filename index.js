@@ -41,6 +41,10 @@ embed.info = function (url) {
   url = URL.parse(url, true)
 
   var id
+  
+  if (!url.hostname) {
+    return undefined
+  }
 
   id = detectYoutube(url)
   if (id) {
